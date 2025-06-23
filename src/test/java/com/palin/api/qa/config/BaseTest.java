@@ -19,8 +19,8 @@ public class BaseTest {
   public void setUp() {
     final Properties props = new Properties();
     try {
-      log.info("Load kinto-esg-qa.properties file.");
-      final FileReader reader = new FileReader("src/test/resources/kinto-esg-qa.properties");
+      log.info("Load palin-api-qa.properties file.");
+      final FileReader reader = new FileReader("src/test/resources/palin-api-qa.properties");
       props.load(reader);
       TEMP_DOWNLOAD_DIR = new File(props.getProperty("downloadDir")).getAbsolutePath();
     } catch (IOException e) {
@@ -29,6 +29,7 @@ public class BaseTest {
       log.error(e.getMessage());
     }
 
+    log.info("Setting up REST Assured base URI to [{}]", props.getProperty("apiBaseUrl"));
     RestAssured.baseURI = props.getProperty("apiBaseUrl");
     getApiCapabilities();
   }

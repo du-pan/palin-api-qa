@@ -27,6 +27,7 @@ public class UserApiRequests {
   }
 
   public String authorizeUser(final String bodyPath) {
+    System.out.println(">>>>> " + getEntityJsonObject(bodyPath));
     return authorizeUser(getEntityJsonObject(bodyPath));
   }
 
