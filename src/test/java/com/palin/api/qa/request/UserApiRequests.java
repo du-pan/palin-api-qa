@@ -11,8 +11,7 @@ import static com.palin.api.qa.constant.TestConstants.API_USER_LOGIN_URL;
 import static com.palin.api.qa.constant.TestConstants.APPLICATION_JSON;
 import static com.palin.api.qa.model.RequestMethod.POST;
 import static com.palin.api.qa.util.ObjectConverterUtil.getEntityJsonObject;
-import static org.apache.http.HttpStatus.SC_OK;
-import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
+import static org.apache.http.HttpStatus.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
@@ -36,7 +35,7 @@ public class UserApiRequests {
 
   public void authorizeUserIncorrect(final String bodyPath) {
     final Response authorizeUserIncorrect = sendRequest(API_USER_LOGIN_URL, POST, bodyPath, APPLICATION_JSON);
-    assertEquals(authorizeUserIncorrect.statusCode(), SC_UNAUTHORIZED);
+    assertEquals(authorizeUserIncorrect.statusCode(), SC_BAD_REQUEST);
   }
 
   private JSONObject constructAuthUserBody(final String username, final String password) {
