@@ -26,7 +26,7 @@ pipeline {
 
     stages {
         stage('Start build job') {
-            step {
+            steps {
                 echo 'Jenkins CI/CD Build Job Started'
                 sh 'id'
                 sh 'whoami'
