@@ -36,9 +36,8 @@ pipeline {
         stage('Create Docker agent and execute API tests') {
              steps {
                  sh 'touch .env'
-                   // sh 'mvn clean test -Dgroups=api_test'
-                   sh 'mvn clean test -Dtest=UserLoginTest'
-                 }
+                 // sh 'mvn clean test -Dgroups=api_test'
+                 sh 'mvn clean test -Dtest=UserLoginTest'
              }
         }
     }
