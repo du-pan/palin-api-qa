@@ -7,9 +7,9 @@ pipeline {
     }
 
     options {
-            timestamps()
-            timeout(time: 60, unit: 'MINUTES')
-            buildDiscarder(logRotator(artifactDaysToKeepStr: '4'))
+        timestamps()
+        timeout(time: 60, unit: 'MINUTES')
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '4'))
     }
 
     parameters {
@@ -30,22 +30,22 @@ pipeline {
         }
 
         stage('Create Docker agent and execute API tests') {
-             steps {
-                 sh 'touch .env'
-                 // sh 'mvn clean test -Dgroups=api_test'
-                 sh 'mvn clean test -Dtest=UserLoginTest'
-             }
+            steps {
+                sh 'touch .env'
+                // sh 'mvn clean test -Dgroups=api_test'
+                sh 'mvn clean test -Dtest=UserLoginTest'
+            }
         }
     }
 
     post {
         always {
+            echo 'Publishing test results...'
             junit testResults: 'target/surefire-reports/TEST-*.xml', skipPublishingChecks: true
         }
         cleanup {
-             echo 'Jenkins CI/CD Build Job Finished'
-             cleanWs()
+            echo 'Jenkins CI/CD Build Job Finished'
+            cleanWs()
         }
     }
-
 }
