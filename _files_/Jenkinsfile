@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.9-eclipse-temurin-21-alpine'
-            args '-u root'
-        }
-    }
+    agent none
 
     options {
             timestamps()
@@ -12,9 +7,9 @@ pipeline {
             buildDiscarder(logRotator(artifactDaysToKeepStr: '4'))
     }
 
-//     libraries {
-//         lib('jenkins-library')
-//     }
+    libraries {
+        lib('jenkins-library')
+    }
 
     parameters {
         choice(name: 'SERVER', choices: ['palin_dev', 'palin_stag'], description: 'Server environment on which the tests suite should be run:')
@@ -26,6 +21,12 @@ pipeline {
 
     stages {
         stage('Start build job') {
+            agent {
+                docker {
+                    image 'maven:3.9.9-eclipse-temurin-21-alpine'
+                    args '-u root'
+                }
+            }
             steps {
                 echo 'Jenkins CI/CD Build Job Started'
                 sh 'id'
