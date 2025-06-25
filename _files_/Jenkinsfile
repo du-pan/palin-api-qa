@@ -47,7 +47,7 @@ pipeline {
             junit testResults: 'target/surefire-reports/TEST-*.xml', skipPublishingChecks: true
         }*/
         cleanup {
-             echo 'Jenkins CI/CD Build Job Finished'
+             //echo 'Jenkins CI/CD Build Job Finished'
              cleanWs()
         }
     }
