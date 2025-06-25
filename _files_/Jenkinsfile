@@ -45,9 +45,9 @@ pipeline {
 
     post {
         always {
-            node {
+            echo 'Jenkins CI/CD Build Job Finished'
+            script {
                 junit testResults: 'target/surefire-reports/TEST-*.xml', skipPublishingChecks: true
-                echo 'Jenkins CI/CD Build Job Finished'
                 cleanWs()
             }
         }
