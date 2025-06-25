@@ -21,7 +21,6 @@ pipeline {
     }
 
     stages {
-        stage
         stage('Start build job') {
             steps {
                 echo 'Jenkins CI/CD Build Job Started'
