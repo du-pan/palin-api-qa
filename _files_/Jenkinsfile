@@ -12,9 +12,9 @@ pipeline {
             buildDiscarder(logRotator(artifactDaysToKeepStr: '4'))
     }
 
-    libraries {
-        lib('jenkins-library')
-    }
+//     libraries {
+//         lib('jenkins-library')
+//     }
 
     parameters {
         choice(name: 'SERVER', choices: ['palin_dev', 'palin_stag'], description: 'Server environment on which the tests suite should be run:')
@@ -43,11 +43,11 @@ pipeline {
     }
 
     post {
-        /*always {
+        always {
             junit testResults: 'target/surefire-reports/TEST-*.xml', skipPublishingChecks: true
-        }*/
+        }
         cleanup {
-             //echo 'Jenkins CI/CD Build Job Finished'
+             echo 'Jenkins CI/CD Build Job Finished'
              cleanWs()
         }
     }
