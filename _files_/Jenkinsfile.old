@@ -1,0 +1,57 @@
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.9.9-eclipse-temurin-21-alpine'
+            args '''
+                -v /var/run/docker.sock:/var/run/docker.sock
+                -v "${WORKSPACE}:/app"
+                -w /app
+                --user=root
+            '''
+        }
+    }
+
+    options {
+        timestamps()
+        timeout(time: 60, unit: 'MINUTES')
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '4'))
+    }
+
+    parameters {
+        choice(name: 'SERVER', choices: ['palin_dev', 'palin_stag'], description: 'Server environment on which the tests suite should be run:')
+    }
+
+    environment {
+        SERVER = "${params.SERVER}"
+    }
+
+    stages {
+        stage('Start build job') {
+            steps {
+                echo 'Jenkins CI/CD Build Job Started'
+                sh 'id'
+                sh 'whoami'
+                sh 'pwd'
+            }
+        }
+
+        stage('Create Docker agent and execute API tests') {
+            steps {
+                sh 'touch .env'
+                // sh 'mvn clean test -Dgroups=api_test'
+                sh 'mvn clean test -Dtest=UserLoginTest'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Publishing test results...'
+            junit testResults: 'target/surefire-reports/TEST-*.xml', skipPublishingChecks: true
+        }
+        cleanup {
+            echo 'Jenkins CI/CD Build Job Finished'
+            cleanWs()
+        }
+    }
+}
