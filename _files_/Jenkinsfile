@@ -5,7 +5,7 @@ pipeline {
         stage('Run Tests in Maven Docker') {
             steps {
                 script {
-                    docker.image('maven:3.9.9-eclipse-temurin-21-alpine').inside {
+                    docker.image('maven:3.9.9-eclipse-temurin-21-alpine').inside("-v ${env.WORKSPACE}:/workspace -w /workspace") {
                         sh 'mvn clean test'
                     }
                 }
