@@ -1,11 +1,18 @@
 pipeline {
     agent any
 
+    environment {
+        // Fix the path: convert Windows to Docker-friendly style
+        WORKSPACE_LINUX = "${env.WORKSPACE}".replace('C:\\', '/c/').replaceAll('\\\\','/')
+    }
+
     stages {
         stage('Run Tests in Maven Docker') {
             steps {
                 script {
-                    docker.image('maven:3.9.9-eclipse-temurin-21-alpine').inside("-v ${env.WORKSPACE}:/workspace -w /workspace") {
+                    docker.image('maven:3.9.9-eclipse-temurin-21-alpine').inside(
+                        "--rm -v ${env.WORKSPACE_LINUX}:/workspace -w /workspace"
+                    ) {
                         sh 'mvn clean test'
                     }
                 }
