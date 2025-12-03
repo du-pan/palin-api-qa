@@ -145,21 +145,10 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <outputDirectory>${project.build.directory}/classes</outputDirectory>
         <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <testResources>
-            <testResource>
-                <directory>src/main/resources</directory>
-                <targetPath>${project.build.testOutputDirectory}</targetPath>
-            </testResource>
-        </testResources>
-        <testSourceDirectory>src/test</testSourceDirectory>
-        <outputDirectory>target/test-classes</outputDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
