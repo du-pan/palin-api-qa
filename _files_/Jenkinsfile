@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Fix the path: convert Windows to Docker-friendly style
         WORKSPACE_LINUX = "${env.WORKSPACE}".replace('C:\\', '/c/').replaceAll('\\\\','/')
     }
 
