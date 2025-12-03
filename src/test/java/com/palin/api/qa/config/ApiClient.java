@@ -36,7 +36,7 @@ public class ApiClient {
     JsonAssert.setOptions(TREATING_NULL_AS_ABSENT, IGNORING_ARRAY_ORDER);
   }
 
-    public static Response sendRequest(
+    public static Response sendHttpRequest(
             final String endpoint,
             final RequestMethod requestMethod,
             final String body,
@@ -82,38 +82,38 @@ public class ApiClient {
         return response.then().extract().response();
     }
 
-    public static Response sendRequest(final String endpoint, final RequestMethod requestMethod) {
-        return sendRequest(endpoint, requestMethod, (String) null, null, null);
+    public static Response sendHttpRequest(final String endpoint, final RequestMethod requestMethod) {
+        return sendHttpRequest(endpoint, requestMethod, (String) null, null, null);
     }
 
-    public static Response sendRequest(
+    public static Response sendHttpRequest(
             final String endpoint, final RequestMethod requestMethod, final String token) {
-        return sendRequest(endpoint, requestMethod, (String) null, null, token);
+        return sendHttpRequest(endpoint, requestMethod, (String) null, null, token);
     }
 
-    public static Response sendRequest(
+    public static Response sendHttpRequest(
             final String endpoint,
             final RequestMethod requestMethod,
             final String body,
             final String contentType) {
-        return sendRequest(endpoint, requestMethod, body, contentType, null);
+        return sendHttpRequest(endpoint, requestMethod, body, contentType, null);
     }
 
-    public static Response sendRequest(
+    public static Response sendHttpRequest(
             final String endpoint,
             final RequestMethod requestMethod,
             final JSONObject body,
             final String contentType) {
         assert body != null;
-        return sendRequest(endpoint, requestMethod, body.toString(), contentType, null);
+        return sendHttpRequest(endpoint, requestMethod, body.toString(), contentType, null);
     }
 
-    public static Response sendRequest(
+    public static Response sendHttpRequest(
             final String endpoint,
             final RequestMethod requestMethod,
             final JSONObject body,
             final String contentType,
             final String token) {
-        return sendRequest(endpoint, requestMethod, body.toString(), contentType, token);
+        return sendHttpRequest(endpoint, requestMethod, body.toString(), contentType, token);
     }
 }

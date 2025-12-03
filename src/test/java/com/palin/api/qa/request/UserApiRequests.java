@@ -1,11 +1,10 @@
 package com.palin.api.qa.request;
 
-import com.palin.api.qa.model.RequestMethod;
+import com.palin.api.qa.config.ApiClient;
 import io.restassured.response.Response;
 import org.json.JSONObject;
-import org.testng.Assert;
 
-import static com.palin.api.qa.config.ApiClient.sendRequest;
+import static com.palin.api.qa.config.ApiClient.sendHttpRequest;
 import static com.palin.api.qa.constant.JsonPropertyConstants.*;
 import static com.palin.api.qa.constant.TestConstants.API_USER_LOGIN_URL;
 import static com.palin.api.qa.constant.TestConstants.APPLICATION_JSON;
@@ -19,7 +18,7 @@ public class UserApiRequests {
 
   public String authorizeUser(final JSONObject body) {
     final Response authorizeUserResponse =
-        sendRequest(API_USER_LOGIN_URL, POST, body, APPLICATION_JSON);
+        ApiClient.sendHttpRequest(API_USER_LOGIN_URL, POST, body, APPLICATION_JSON);
     assertEquals(authorizeUserResponse.statusCode(), SC_OK);
 
     return authorizeUserResponse.jsonPath().getString(ACCESS_TOKEN);
@@ -34,7 +33,7 @@ public class UserApiRequests {
   }
 
   public void authorizeUserIncorrect(final String bodyPath) {
-    final Response authorizeUserIncorrect = sendRequest(API_USER_LOGIN_URL, POST, bodyPath, APPLICATION_JSON);
+    final Response authorizeUserIncorrect = ApiClient.sendHttpRequest(API_USER_LOGIN_URL, POST, bodyPath, APPLICATION_JSON);
     assertEquals(authorizeUserIncorrect.statusCode(), SC_BAD_REQUEST);
   }
 
