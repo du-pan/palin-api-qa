@@ -1,4 +1,4 @@
-package com.palin.api.qa.constant;
+package com.palin.api.qa.constant.main;
 
 public class JsonPropertyConstants {
     public static final String USERNAME = "username";

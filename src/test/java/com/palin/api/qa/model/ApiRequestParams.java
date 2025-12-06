@@ -1,5 +1,6 @@
 package com.palin.api.qa.model;
 
+import com.palin.api.qa.constant.enums.RequestMethod;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,6 @@ public class ApiRequestParams {
     private int expectedHttpStatus;
     private String expectedResponsePath;
     private JSONObject expectedResponseJson;
-    private String jsonPath;
+    private String inJsonPath;
     private String[] whenIgnoringPaths;
 }

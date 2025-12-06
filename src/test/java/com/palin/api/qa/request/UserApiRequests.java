@@ -1,18 +1,17 @@
 package com.palin.api.qa.request;
 
-import com.palin.api.qa.config.ApiClient;
-import io.restassured.response.Response;
-import org.json.JSONObject;
-
-import static com.palin.api.qa.config.ApiClient.sendHttpRequest;
-import static com.palin.api.qa.constant.JsonPropertyConstants.*;
-import static com.palin.api.qa.constant.TestConstants.API_USER_LOGIN_URL;
-import static com.palin.api.qa.constant.TestConstants.APPLICATION_JSON;
-import static com.palin.api.qa.model.RequestMethod.POST;
+import static com.palin.api.qa.constant.enums.RequestMethod.POST;
+import static com.palin.api.qa.constant.main.JsonPropertyConstants.*;
+import static com.palin.api.qa.constant.main.TestConstants.API_USER_LOGIN_URL;
+import static com.palin.api.qa.constant.main.TestConstants.APPLICATION_JSON;
 import static com.palin.api.qa.util.ObjectConverterUtil.getEntityJsonObject;
 import static org.apache.http.HttpStatus.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+
+import com.palin.api.qa.config.ApiClient;
+import io.restassured.response.Response;
+import org.json.JSONObject;
 
 public class UserApiRequests {
 
