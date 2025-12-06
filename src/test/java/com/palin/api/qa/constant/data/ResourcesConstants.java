@@ -1,4 +1,4 @@
-package com.palin.api.qa.constant;
+package com.palin.api.qa.constant.data;
 
 public class ResourcesConstants {
     public static final String API_TEST_JSON_PATH = "src/test/resources/api/";

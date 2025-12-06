@@ -4,9 +4,9 @@ import com.palin.api.qa.config.BaseTest;
 import com.palin.api.qa.request.UserApiRequests;
 import org.testng.annotations.Test;
 
-import static com.palin.api.qa.constant.ResourcesConstants.*;
-import static com.palin.api.qa.constant.TestConstants.PASSWORD_MICHAEL;
-import static com.palin.api.qa.constant.TestConstants.USERNAME_MICHAEL;
+import static com.palin.api.qa.constant.data.ResourcesConstants.*;
+import static com.palin.api.qa.constant.main.TestConstants.PASSWORD_MICHAEL;
+import static com.palin.api.qa.constant.main.TestConstants.USERNAME_MICHAEL;
 
 public class UserLoginTest extends BaseTest {
   private static final UserApiRequests userApiRequests = new UserApiRequests();

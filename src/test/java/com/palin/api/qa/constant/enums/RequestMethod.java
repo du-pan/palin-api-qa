@@ -1,4 +1,4 @@
-package com.palin.api.qa.model;
+package com.palin.api.qa.constant.enums;
 
 public enum RequestMethod {
     GET,

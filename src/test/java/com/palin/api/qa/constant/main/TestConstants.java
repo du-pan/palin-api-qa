@@ -1,4 +1,4 @@
-package com.palin.api.qa.constant;
+package com.palin.api.qa.constant.main;
 
 public class TestConstants {
     // --- API URLs -----------------------------------------------------------------------
