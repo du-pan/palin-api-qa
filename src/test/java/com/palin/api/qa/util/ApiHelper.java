@@ -13,7 +13,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 public class ApiHelper extends ApiClient {
-  public void assertResponseHttpStatus(final Response response, final int expectedHttpStatus) {
+  public static void assertResponseHttpStatus(final Response response, final int expectedHttpStatus) {
     assertNotNull(response);
     assertEquals(
         response.statusCode(),

@@ -21,5 +21,5 @@ public class ApiRequestParams {
     private String expectedResponsePath;
     private JSONObject expectedResponseJson;
     private String inJsonPath;
-    private String[] whenIgnoringPaths;
+    private String[] pathsToBeIgnored;
 }
