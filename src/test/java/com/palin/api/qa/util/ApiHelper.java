@@ -1,19 +1,48 @@
 package com.palin.api.qa.util;
 
-import com.palin.api.qa.config.ApiClient;
-import io.restassured.response.Response;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
+import static com.palin.api.qa.config.BaseTest.*;
 import static com.palin.api.qa.util.ObjectConverterUtil.getEntityJsonObject;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static net.javacrumbs.jsonunit.core.Option.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+import com.palin.api.qa.config.ApiClient;
+import com.palin.api.qa.request.UserApiRequests;
+import io.restassured.response.Response;
+import java.util.ArrayList;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.tuple.Pair;
+import org.json.JSONObject;
+
+@Slf4j
 public class ApiHelper extends ApiClient {
-  public static void assertResponseHttpStatus(final Response response, final int expectedHttpStatus) {
+  private static final UserApiRequests userApiRequests = new UserApiRequests();
+
+  public static void apiCleanUserData() {
+    String tokenValue = "";
+    log.info(
+        "Users to be deleted IDs are: {}", userCleanUpList.stream().map(Pair::getRight).toList());
+    for (Pair<String, String> pair : userCleanUpList) {
+      userApiRequests.deleteUserById(pair.getLeft(), pair.getRight());
+      tokenValue = pair.getLeft();
+    }
+    for (Pair<String, String> pair : productCleanUpList) {
+      // todo userApiRequests.deleteProductById(pair.getLeft(), pair.getRight());
+      tokenValue = pair.getLeft();
+    }
+    if (!tokenValue.isEmpty()) {
+      userApiRequests.signOutUser(tokenValue);
+    }
+    userCleanUpList.clear();
+    productCleanUpList.clear();
+    accessToken.remove();
+    createdUserId.remove();
+    createdProductId.remove();
+  }
+
+  public static void assertResponseHttpStatus(
+      final Response response, final int expectedHttpStatus) {
     assertNotNull(response);
     assertEquals(
         response.statusCode(),
@@ -29,18 +58,20 @@ public class ApiHelper extends ApiClient {
   public static void assertResponseBodyEquals(
       final Response response, final JSONObject... expectedJsonBody) {
     AssertionError assertionError;
-    for (JSONObject jsonObject : expectedJsonBody) {
-      try {
-        assertThatJsonEquals(response, jsonObject);
-        return;
-      } catch (AssertionError e) {
-        assertionError = e;
-        assertionError.printStackTrace();
+    if (!expectedJsonBody.equals(new JSONObject())) {
+      for (JSONObject jsonObject : expectedJsonBody) {
+        try {
+          assertThatJsonEquals(response, jsonObject);
+          return;
+        } catch (AssertionError e) {
+          assertionError = e;
+          assertionError.printStackTrace();
+        }
+        throw new AssertionError(
+            "None of expected bodies are equal as expected. Assertion message: ["
+                + assertionError.getMessage()
+                + "]");
       }
-      throw new AssertionError(
-          "None of expected bodies are equal as expected. Assertion message: ["
-              + assertionError.getMessage()
-              + "]");
     }
   }
 

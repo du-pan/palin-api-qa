@@ -4,6 +4,7 @@ import static com.palin.api.qa.constant.enums.RequestMethod.*;
 import static com.palin.api.qa.constant.main.TestConstants.API_AUTH_QUERY_PARAM;
 import static com.palin.api.qa.constant.main.TestConstants.API_BEARER_TOKEN_AUTH;
 import static com.palin.api.qa.util.ObjectConverterUtil.getEntityJsonObject;
+import static com.palin.api.qa.util.ObservableValue.setUserApiValuesObserver;
 import static org.apache.http.HttpVersion.HTTP;
 import static org.awaitility.Awaitility.waitAtMost;
 
@@ -32,6 +33,7 @@ public class ApiClient {
                     .enablePrettyPrinting(true)
                     .enableLoggingOfRequestAndResponseIfValidationFails()
                     .enableLoggingOfRequestAndResponseIfValidationFails());
+    setUserApiValuesObserver();
   }
 
   public static Response sendHttpRequest(
@@ -107,11 +109,15 @@ public class ApiClient {
   }
 
   public static Response sendHttpRequest(
-      final String endpoint,
-      final RequestMethod requestMethod,
-      final JSONObject body,
-      final String contentType,
-      final String token) {
-    return sendHttpRequest(endpoint, requestMethod, body.toString(), contentType, token);
+          final String endpoint,
+          final RequestMethod requestMethod,
+          JSONObject body,
+          final String contentType,
+          final String token) {
+    String stringBody = null;
+    if (body != null) {
+      stringBody = body.toString();
+    }
+    return sendHttpRequest(endpoint, requestMethod, stringBody, contentType, token);
   }
 }

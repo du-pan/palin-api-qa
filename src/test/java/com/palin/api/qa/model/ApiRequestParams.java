@@ -1,5 +1,6 @@
 package com.palin.api.qa.model;
 
+import com.palin.api.qa.constant.enums.EntityType;
 import com.palin.api.qa.constant.enums.RequestMethod;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiRequestParams {
+    private EntityType entityTypeToBeDeleted;
     private String apiEndpoint;
     private RequestMethod requestMethod;
     private String accessToken;
