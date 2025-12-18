@@ -1,27 +1,32 @@
 package com.palin.api.qa.request;
 
 import static com.palin.api.qa.config.ApiClient.sendHttpRequest;
+import static com.palin.api.qa.config.BaseTest.accessToken;
+import static com.palin.api.qa.constant.enums.RequestMethod.DELETE;
 import static com.palin.api.qa.constant.enums.RequestMethod.POST;
 import static com.palin.api.qa.constant.main.JsonPropertyConstants.*;
-import static com.palin.api.qa.constant.main.TestConstants.API_USER_LOGIN_URL;
-import static com.palin.api.qa.constant.main.TestConstants.APPLICATION_JSON;
+import static com.palin.api.qa.constant.main.TestConstants.*;
 import static com.palin.api.qa.util.ApiHelper.assertResponseHttpStatus;
 import static com.palin.api.qa.util.ObjectConverterUtil.getEntityJsonObject;
 import static org.apache.http.HttpStatus.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+import com.palin.api.qa.model.ApiRequestParams;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 
-public class UserApiRequests {
+public class UserApiRequests extends BaseApiRequests {
 
   public String authorizeUser(final JSONObject body) {
-    final Response authorizeUserResponse =
-        sendHttpRequest(API_USER_LOGIN_URL, POST, body, APPLICATION_JSON);
-    assertResponseHttpStatus(authorizeUserResponse, SC_OK);
+    final Response authUserResponse =
+        sendHttpRequest(API_USERS_AUTH_LOGIN_URL, POST, body, APPLICATION_JSON);
+    assertResponseHttpStatus(authUserResponse, SC_OK);
 
-    return authorizeUserResponse.jsonPath().getString(ACCESS_TOKEN);
+    final String sessionAccessToken = authUserResponse.jsonPath().getString(ACCESS_TOKEN);
+    accessToken.set(sessionAccessToken);
+
+    return sessionAccessToken;
   }
 
   public String authorizeUser(final String bodyPath) {
@@ -33,9 +38,29 @@ public class UserApiRequests {
   }
 
   public void authorizeUserIncorrect(final String bodyPath) {
-    final Response authorizeUserIncorrect =
-        sendHttpRequest(API_USER_LOGIN_URL, POST, bodyPath, APPLICATION_JSON);
-    assertEquals(authorizeUserIncorrect.statusCode(), SC_BAD_REQUEST);
+    final Response incorrectUserAuthResponse =
+        sendHttpRequest(API_USERS_AUTH_LOGIN_URL, POST, bodyPath, APPLICATION_JSON);
+    assertEquals(incorrectUserAuthResponse.statusCode(), SC_BAD_REQUEST);
+  }
+
+  public void signOutUser(final String accessToken) {
+    writeOpsHttpRequest(
+        ApiRequestParams.builder()
+            .accessToken(accessToken)
+            .apiEndpoint(API_USERS_AUTH_LOGOUT_URL)
+            .requestMethod(POST)
+            .expectedHttpStatus(SC_OK)
+            .build());
+  }
+
+  public void deleteUserById(final String accessToken, final String userId) {
+    noBodyHttpRequest(
+        ApiRequestParams.builder()
+            .accessToken(accessToken)
+            .apiEndpoint(String.format(API_USERS_BY_ID_URL, userId))
+            .requestMethod(DELETE)
+            .expectedHttpStatus(SC_NOT_FOUND) // not found because mock DB
+            .build());
   }
 
   private JSONObject constructAuthUserBody(final String username, final String password) {
