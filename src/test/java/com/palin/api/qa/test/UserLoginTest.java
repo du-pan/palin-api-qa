@@ -12,7 +12,7 @@ public class UserLoginTest extends BaseTest {
   private static final UserApiRequests userApiRequests = new UserApiRequests();
 
   @Test
-  void shouldLoginUserJsonPath() {
+  void shouldLoginUserJson() {
     userApiRequests.authorizeUser(USER_LOGIN_EMILY_JSON);
   }
 

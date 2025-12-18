@@ -20,19 +20,17 @@ public class ApiHelper extends ApiClient {
   private static final UserApiRequests userApiRequests = new UserApiRequests();
 
   public static void apiCleanUserData() {
-    String tokenValue = "";
     log.info(
         "Users to be deleted IDs are: {}", userCleanUpList.stream().map(Pair::getRight).toList());
     for (Pair<String, String> pair : userCleanUpList) {
       userApiRequests.deleteUserById(pair.getLeft(), pair.getRight());
-      tokenValue = pair.getLeft();
     }
     for (Pair<String, String> pair : productCleanUpList) {
       // todo userApiRequests.deleteProductById(pair.getLeft(), pair.getRight());
-      tokenValue = pair.getLeft();
     }
-    if (!tokenValue.isEmpty()) {
-      userApiRequests.signOutUser(tokenValue);
+    if (accessToken.get() != null) {
+      log.info("Log out current user.");
+      userApiRequests.signOutUser(accessToken.get());
     }
     userCleanUpList.clear();
     productCleanUpList.clear();

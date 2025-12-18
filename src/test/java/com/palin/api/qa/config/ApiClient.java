@@ -65,6 +65,8 @@ public class ApiClient {
       } else {
         request = request.body(body).contentType(contentType);
       }
+    } else if (requestMethod.equals(POST)) {
+      request = request.contentType(contentType);
     }
 
     final Response response =
@@ -109,14 +111,14 @@ public class ApiClient {
   }
 
   public static Response sendHttpRequest(
-          final String endpoint,
-          final RequestMethod requestMethod,
-          JSONObject body,
-          final String contentType,
-          final String token) {
+      final String endpoint,
+      final RequestMethod requestMethod,
+      final JSONObject body,
+      final String contentType,
+      final String token) {
     String stringBody = null;
     if (body != null) {
-      stringBody = body.toString();
+      stringBody = body.toString(4);
     }
     return sendHttpRequest(endpoint, requestMethod, stringBody, contentType, token);
   }

@@ -44,16 +44,13 @@ public class UserApiRequests extends BaseApiRequests {
   }
 
   public void signOutUser(final String accessToken) {
-    writeOpsHttpRequest(ApiRequestParams.builder()
+    writeOpsHttpRequest(
+        ApiRequestParams.builder()
             .accessToken(accessToken)
             .apiEndpoint(API_USERS_AUTH_LOGOUT_URL)
             .requestMethod(POST)
+            .expectedHttpStatus(SC_OK)
             .build());
-   /* final Response signOutUserResponse =
-        sendHttpRequest(
-            API_USERS_AUTH_LOGOUT_URL, POST, (String) null, APPLICATION_JSON, accessToken);
-    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>> " + signOutUserResponse.body().asPrettyString());
-    verifyHttpResponseContent(signOutUserResponse, SC_OK, USER_LOGOUT_RESPONSE_BODY_JSON);*/
   }
 
   public void deleteUserById(final String accessToken, final String userId) {

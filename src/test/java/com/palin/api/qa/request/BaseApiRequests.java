@@ -89,7 +89,6 @@ public class BaseApiRequests {
     if (params.getPathsToBeIgnored() != null) {
       pathsToBeIgnored = params.getPathsToBeIgnored();
     }
-
     final Response httpResponse =
         sendHttpRequest(
             params.getApiEndpoint(),
